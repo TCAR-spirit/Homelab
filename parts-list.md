@@ -7,6 +7,7 @@ Target budget: ~$1,400 · Prices are rounded estimates as of July 2026
 |  Item | Model | Est. Price | Status |
 |------|-------|-----------|--------|
 | Rack | [DeskPi RackMate T2 12U](https://deskpi.com/products/deskpi-rackmate-t2-light-version-10-inch-black-12u-server-cabinet-for-network-servers-audio-and-video-equipment) | $160 | Researching |
+| alt rack | [Desk pi Rackmate T1 8U](https://deskpi.com/products/deskpi-rackmate-t1-light-version-10-inch-black-8u-server-cabinet-for-network-servers-audio-and-video-equipment?_pos=14&_sid=50071c333&_ss=r) | $100 | Reaearching |
 | Shelves (x3) | DeskPi 1U shelf, 10.23" depth | $60 | Researching |
 | Patch panel | GeeekPi 0.5U 12-port CAT6 keystone | $25 | Researching |
 | PDU | 10" rack AC PDU w/ surge, 8 outlet | $50 | Researching |
