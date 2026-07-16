@@ -4,6 +4,8 @@ A Discord bot that helps me build my campaign world. On a schedule, Zordon
 asks one world-building question. My answers accumulate in a lore log, and
 every future question builds on that log — so over time he digs deeper into
 the world instead of asking random questions.
+this will also link to my already made Obsdian vault which houses all of my
+already made lore and world building.
  
 This is v0.1 (text only) of a larger project: the long-term goal is a
 voice-capable assistant, self-hosted on my homelab, that also transcribes
