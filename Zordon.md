@@ -33,7 +33,7 @@ Hermes instance is a one-line `.env` change.
 ### 1. Discord bot
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) → New Application → name it Zordon
 2. **Bot** tab → Reset Token → copy it (this is `DISCORD_TOKEN`)
-3. Still on the Bot tab, enable **Message Content Intent** (required)
+3. Still on the Bot tab, enable **Message Content Intent** (required) it is directly above **Bot Permissions**
 4. **OAuth2 → URL Generator**: check `bot` scope, then `Send Messages`,
    `Read Message History` permissions → open the generated URL and invite
    the bot to your server
