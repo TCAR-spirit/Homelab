@@ -32,22 +32,24 @@ Hermes instance is a one-line `.env` change.
  
 ### 1. Discord bot
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) → New Application → name it Zordon
-2. **Bot** tab → Reset Token → copy it (this is `DISCORD_TOKEN`)
+2. **Bot** tab → Reset Token → copy it (this is `DISCORD_TOKEN`)(keep it handy)
 3. Still on the Bot tab, enable **Message Content Intent** (required) it is directly above **Bot Permissions**
 4. Then go to **OAuth2 → URL Generator**: check `bot` scope, then `Send Messages`,
    `Read Message History` permissions → open the generated URL and invite
    the bot to your server
 5. Make a private channel (e.g. `#zordon`), then right-click it → Copy
    Channel ID (turn on Developer Mode in Discord settings if you don't see
-   this). This is `ZORDON_CHANNEL_ID`.
+   this)(keep channel ID handy). This is `ZORDON_CHANNEL_ID`.
 ### 2. LLM key
 Create an account at [OpenRouter](https://openrouter.ai), add a few dollars
-of credit, and make an API key. Hermes 4 70B costs ~$0.13/M input tokens —
+of credit, and make an API key (keep it handy). Hermes 4 70B costs ~$0.13/M input tokens —
 this bot's usage rounds to pennies per month.
  
 ### 3. Run it
+Now just fill in the .env file with all the corresponding ID number, api key, and bot token
+once that is done make sure yopu have docker installed and up to date
+finally in the docker CLI you can run these commands (make sure you are in the right directory when you run it)
 ```bash
-cp .env.example .env    # then fill in your values
 docker compose up -d --build
 docker compose logs -f  # watch for "Zordon online as ..."
 ```
