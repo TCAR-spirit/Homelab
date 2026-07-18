@@ -24,3 +24,4 @@ but this is the baseline for my personal network rack.
 
 ## Build Log
 
+2026-07-17 — Zordon v0.1 running: Discord bot with LLM backend, containerized with Docker.
