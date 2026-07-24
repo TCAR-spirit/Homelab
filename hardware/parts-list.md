@@ -1,6 +1,6 @@
 # Parts List
 
-Target budget: ~$1,400 · Prices are rounded estimates as of July 2026
+Target budget: ~$1,450 · Prices are rounded estimates as of July 2026
 
 ## Rack & Infrastructure
 
@@ -13,7 +13,7 @@ Target budget: ~$1,400 · Prices are rounded estimates as of July 2026
 | PDU | 10" rack AC PDU w/ surge, 8 outlet | $50 | Researching |
 | Cooling | DeskPi 1U quad fan panel | $40 | Researching |
 | Cables & misc | Slim CAT6, keystones, velcro, labels | $40 | Researching |
-
+| End table | [3-Tier shelf for Rack](https://www.amazon.com/gp/product/B0DSJ16HPP/ref=ox_sc_saved_image_1?smid=A2UBQ6YUJDZKKK&th=1) | $20 | Researching |
 ## Compute & Network
 
 | Item | Model | Est. Price | Status |
@@ -21,7 +21,7 @@ Target budget: ~$1,400 · Prices are rounded estimates as of July 2026
 | Firewall | Fanless N100 quad 2.5GbE box (OPNsense) | $200 | Researching |
 | Switch | 8-port 2.5GbE managed w/ VLANs | $90 | Researching |
 | Proxmox host | Lenovo ThinkCentre M920q, i7-8700T (used) | $150 | Researching |
-| RAM upgrade | 64GB DDR4 SO-DIMM | $100 | Researching |
+| RAM upgrade | [single 32GB DDR4 SO-DIMM stick](https://www.newegg.com/p/pl?d=32gb+ddr4+sodimm&srsltid=AfmBOoqfTX0sHUqsXgx0lFn79o-jKAnALFFy5NV2awhqMoJH-NiHj8n2) | $175 | Researching |
 | Storage | 1TB NVMe | $70 | Researching |
 
 ## Later Phases
