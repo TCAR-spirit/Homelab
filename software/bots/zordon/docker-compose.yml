@@ -1,0 +1,10 @@
+services:
+  zordon:
+    build: .
+    container_name: zordon
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Persist the lore log across container restarts/rebuilds
+      - ./data:/app/data

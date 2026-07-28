@@ -1,0 +1,11 @@
+# Never commit secrets or local data
+.env
+.env.*
+*.token
+data/lore.md
+data/lore_local.md
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.log
