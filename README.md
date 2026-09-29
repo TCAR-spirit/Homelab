@@ -26,10 +26,16 @@ but this is the baseline for my personal network rack.
 
 2026-07-17 — Zordon v0.1 running: Discord bot with LLM backend, containerized with Docker.
 
+### 2026-09-17 — Cabling and connectors acquired
+Picked up the bulk of the network cabling — CAT6 patch cables and
+connectors — ahead of the compute hardware. Getting cabling in early
+so that once the switch and hosts arrive, runs can be measured and
+dressed cleanly rather than retrofitted.
+
 ### 2026-09-29 — Proxmox host acquired
-Purchased the HP [ProDesk 600 G4 / EliteDesk] Mini (i7-8700T, 32GB RAM,
-NVMe SSD) as the Proxmox virtualization host — the first hardware
-purchase of Phase 1. This box will run the core service stack:
-the self-hosted Omada controller, Pi-hole, the AI agents, and the
-portfolio site. Chosen for its 8th-gen 6-core CPU and 64GB RAM
-ceiling, giving headroom for future local workloads.
+Purchased an HP EliteDesk 800 G4 Mini (i7-8700T, 32GB RAM, 500GB NVMe)
+as the Proxmox virtualization host — the first hardware purchase of
+Phase 1. This box will run the core service stack: the self-hosted
+Omada controller, Pi-hole, the AI agents, and the portfolio site.
+Chosen for its 8th-gen 6-core CPU and 64GB RAM ceiling, giving
+headroom for future local workloads.
