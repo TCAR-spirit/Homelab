@@ -25,3 +25,11 @@ but this is the baseline for my personal network rack.
 ## Build Log
 
 2026-07-17 — Zordon v0.1 running: Discord bot with LLM backend, containerized with Docker.
+
+### 2026-09-29 — Proxmox host acquired
+Purchased the HP [ProDesk 600 G4 / EliteDesk] Mini (i7-8700T, 32GB RAM,
+NVMe SSD) as the Proxmox virtualization host — the first hardware
+purchase of Phase 1. This box will run the core service stack:
+the self-hosted Omada controller, Pi-hole, the AI agents, and the
+portfolio site. Chosen for its 8th-gen 6-core CPU and 64GB RAM
+ceiling, giving headroom for future local workloads.
