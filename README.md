@@ -33,8 +33,11 @@ awaiting configuration.
 | | |
 |---|---|
 | **Operational reference** | [`network/current-state.md`](network/current-state.md) — addressing, port map, host inventory, next steps |
+| **Phase plan** | [`ROADMAP.md`](ROADMAP.md) — what each phase delivers and what it depends on |
 | **Hardware and spend** | [`hardware/parts-list.md`](hardware/parts-list.md) |
 | **Troubleshooting log** | [`troubleshooting/`](troubleshooting/) |
+| **AI design decisions** | [`docs/ai-architecture.md`](docs/ai-architecture.md) — model routing, cost controls, agent architecture |
+| **Later ideas** | [`future-additions.md`](future-additions.md) |
 
 ## Build Log
 
