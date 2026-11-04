@@ -36,6 +36,7 @@ Next up: adopting the access point, then VLAN segmentation.
 | | |
 |---|---|
 | **Operational reference** | [`network/current-state.md`](network/current-state.md) — addressing, port map, host inventory, next steps |
+| **Firewall rules** | [`network/firewall-rules.md`](network/firewall-rules.md) — egress policy, aliases, WAN settings |
 | **Phase plan** | [`ROADMAP.md`](ROADMAP.md) — what each phase delivers and what it depends on |
 | **Hardware and spend** | [`hardware/parts-list.md`](hardware/parts-list.md) |
 | **Troubleshooting log** | [`troubleshooting/`](troubleshooting/) |
@@ -186,3 +187,32 @@ address is a problem that surfaces at the worst time.
 
 Also noted during this pass: a Twingate connector is already running on the
 Proxmox host, which puts part of Phase 2 ahead of schedule.
+
+### 2026-11-04 — Egress firewall rules
+Inbound was already handled — OPNsense arrives default-deny on WAN. The gap
+on a flat network is egress: what your own devices are allowed to do on the
+way out. Added four LAN rules plus a port alias.
+
+**DNS is now forced through the firewall** (allow to the firewall's
+resolver, block everything else on 53, block DNS-over-TLS on 853). Devices
+routinely ignore the DNS server handed out by DHCP and talk straight to a
+hardcoded public resolver — untidy today, but the moment Pi-hole exists
+those devices would silently bypass every block list on the network. Doing
+this now means Pi-hole works properly on day one instead of appearing to.
+
+**SMB is blocked from leaving the network** (137–139, 445, via a
+`SMB_Ports` alias) with an inverted destination so internal file sharing
+still works. A crafted link can induce Windows to open an SMB connection to
+an external host and leak hashed credentials in the handshake; this closes
+that at no cost.
+
+One thing worth recording as a trap: **"Block private networks" on the WAN
+interface has to stay off here.** It is standard hardening advice
+everywhere, and in a double-NAT topology it severs the uplink — the WAN
+sits on RFC1918 space behind the Verizon router, so the rule would drop the
+firewall's own gateway.
+
+Inter-VLAN policy, IoT isolation, guest networks, and IDS are all deferred
+until segments exist to write them against.
+
+Full ruleset: [`network/firewall-rules.md`](network/firewall-rules.md).

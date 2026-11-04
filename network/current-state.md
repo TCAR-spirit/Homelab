@@ -126,6 +126,15 @@ physical jacks, and working this out cost an hour during the build.
 The anti-lockout rule (Firewall → Settings → Advanced) is left enabled. It
 guarantees web UI access from LAN and becomes relevant during VLAN work.
 
+**Firewall rules:** documented separately in
+[`firewall-rules.md`](firewall-rules.md). Egress filtering is in place —
+DNS forced through the firewall, DNS-over-TLS blocked, SMB blocked from
+leaving the network. Inbound is default-deny on WAN.
+
+**Note:** "Block private networks" on the WAN interface is deliberately
+**off**. The WAN sits on RFC1918 space behind the Verizon router, so
+enabling it would drop the firewall's own upstream gateway.
+
 **Realtek notes carried from the driver README:**
 - If interfaces enumerate but links stay down or traffic is flaky —
   particularly 2.5G into a 1G port — set `hw.re.flow_control="0"` in
