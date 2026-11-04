@@ -25,8 +25,11 @@ but this is the baseline for my personal network rack.
 ## Current State
 
 **Phase 1 foundation is complete.** Verizon 5G router → OPNsense firewall →
-Omada 2.5G switch → Proxmox host, two workstations, and an access point
-awaiting configuration.
+Omada 2.5G switch → Proxmox host and two workstations. The firewall has had
+a full hardening pass, and the switch is under management by a self-hosted
+Omada controller running as an LXC on the Proxmox host.
+
+Next up: adopting the access point, then VLAN segmentation.
 
 ![Home network topology](network/home-network-topology.png)
 
@@ -132,3 +135,54 @@ repository swapped to no-subscription.
 Remaining before Phase 2: the Omada controller container, AP adoption, and
 Pi-hole. Current state documented in
 [`network/current-state.md`](network/current-state.md).
+
+### 2026-10-29 — Omada controller self-hosted on Proxmox
+Built the Omada Network Application as an unprivileged Debian 12 LXC
+(CT 100, `192.168.10.10`) rather than managing the switch and AP standalone
+from the phone app — Omada devices can belong to a controller or to the app,
+never both, so doing it in the right order avoids factory-resetting
+hardware later.
+
+Chose an LXC over a VM on memory grounds: in a container 2GB is 2GB used, in
+a VM it is 4GB reserved whether or not it is touched. Installed Java,
+MongoDB, and the controller by hand rather than using a community helper
+script, so the dependency chain is understood rather than inherited.
+
+The install itself was fine. The failure was a container sized at 2GB, which
+served the login page's shell but could never finish first-run database
+initialization — memory and swap both at 99%, CPU pinned, thrashing rather
+than working. The Proxmox resource graphs diagnosed in one screen what log
+reading hadn't. Raised to 4GB and it came up.
+
+Switch adopted. AP still to do.
+
+Full write-up: [`troubleshooting/omada-controller-lxc.md`](troubleshooting/omada-controller-lxc.md).
+
+### 2026-11-03 → 11-04 — OPNsense hardening and housekeeping
+First proper configuration pass on the firewall, done before VLAN work
+rather than after, on the principle that firewall changes are much safer
+when there is a known-good config to restore.
+
+- Firmware updated
+- Named admin account created with `admins` membership; `root` kept as
+  break-glass rather than deleted
+- Hostname, domain (`command-center.lan`), and timezone set, with the domain
+  matched in Dnsmasq so DHCP clients get a consistent suffix
+- NTP verified against the OPNsense pool, with RRD graphs enabled so clock
+  drift is already being recorded before anyone needs it
+- DHCP reservations pinned for the switch and AP, and DNS records added for
+  the statically-addressed Proxmox host and Omada controller — so every
+  infrastructure host has a stable name and address before VLANs start
+  moving things around
+- Config backed up before and after
+
+The AP took some identifying: the EAP720 reports no DHCP hostname, so it
+appears in the lease table as its own MAC. Its OUI resolves to TP-Link
+Systems, which confirmed it.
+
+Addresses are set in DHCP reservations only, deliberately — the Omada
+controller can also assign static IPs, and two sources of truth for the same
+address is a problem that surfaces at the worst time.
+
+Also noted during this pass: a Twingate connector is already running on the
+Proxmox host, which puts part of Phase 2 ahead of schedule.
