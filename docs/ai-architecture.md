@@ -1,6 +1,6 @@
 # AI Architecture — Design Decisions
 
-**Last updated:** 2026-10-28
+**Last updated:** 2026-11-11
 **Status:** design settled, not yet implemented
 
 How AI workloads are meant to run on this lab, and why. Written down because
@@ -11,6 +11,78 @@ depend on them — particularly anything touching cost.
 can act whenever, and most of what they do is not intellectually demanding.
 Paying frontier-model rates for "what's on my calendar" is the failure mode
 this design exists to prevent.
+
+---
+
+## 0. The design philosophy — a household staff (in my own words)
+
+> Added 2026-11-11 by Tristen. The sections below (§1–§6) were drafted with AI
+> help and are strong on the *engineering* — cost, routing, tooling. But they
+> think in **workloads**: tasks to be optimized. That's not actually how I want
+> to build this. This section is the foundation the rest hangs off of, and
+> where the two disagree, this one wins.
+
+**The Command Center is not a collection of AI workloads. It is a household
+staff.** Each agent is a *person with a role*, not a feature. I'm hiring
+employees, not deploying cron jobs.
+
+The principles, plainly:
+
+1. **One person, one job.** Each agent has a single, clearly described role and
+   a job title that defines its edges — by what's *out* of scope as much as
+   what's in. Alpha-5 is my network admin / security specialist: not a pen
+   tester, not a software engineer, not help desk. A title is a lane.
+
+2. **Personality *and* self-esteem.** Every agent has a character — but more
+   than that, it has **dignity and pride in its work**. It knows its domain is
+   *its own*, it knows it's a valued member of this family, and it takes pride
+   in doing its one job well. A quiet, secure night is Alpha doing his job
+   *well* — not nothing happening. This is not decoration: an agent that cares
+   about its work and its place in the household is a staff member, not a
+   Roomba with a name. (It also doubles as a safety boundary — a guardian who
+   values rules and his role won't go rogue and start pen-testing.)
+
+3. **Stay in your lane — or ask.** If something falls outside an agent's
+   purview, it **asks me** rather than guessing or doing someone else's job.
+   "That's not mine to touch, Tristen — want me to flag it?" is the mark of a
+   good employee, not a failure. Employees don't share desks.
+
+4. **Value is not measured in volume.** A specialist who does one thing well
+   and is quiet most of the day is still a valued hire. The point is that
+   *someone owns that domain completely* — not that they're busy.
+
+5. **They report to me.** For now these are independent specialists, each
+   reporting to the operator. "Family" means they belong to this household and
+   matter to it — not (yet) an org chart where agents manage each other.
+
+6. **The roster is real.** Who I've "hired," their job description, and their
+   character live in [`agents/roster.md`](agents/roster.md) — a living staff
+   directory. Each agent's own spec (e.g. [`agents/alpha-5.md`](agents/alpha-5.md))
+   hangs off its roster entry.
+
+### Where this revises §4 ("network agents are not agents")
+
+§4 below argues the model should *only explain* — dumb tooling detects and
+fires, the LLM just translates the alert into English. In my frame that's
+"don't hire a network admin, just buy a louder alarm." **I want the person.**
+
+The synthesis that keeps §4's good part without gutting the role: separate the
+three jobs a guardian actually does —
+
+- **Detection** ("did something change?") — stays with deterministic tooling.
+  It's genuinely better at this: reliable, free, always on. Don't make the LLM
+  do grunt-work it's bad at.
+- **Judgment** ("does this change *matter*, and how much?") — **this is the
+  agent's.** A threshold can't tell my new NAS from an intruder, or correlate
+  three weak signals into "this smells wrong." That's reasoning, and reasoning
+  is why I hired a person instead of buying an alarm.
+- **Narration** ("explain it so I can act") — the agent's too.
+
+So the deterministic scanner stays (a good admin uses tools), but the agent on
+top of it has a brain and *owns the domain*. At this lab's scale (a few wake-ups
+a day, cheap models) the cost difference is pennies — the §3/§4 cost fears were
+written for a 5-minute-cron, frontier-model world I'm nowhere near. I'm
+choosing judgment over thrift here, deliberately, with eyes open.
 
 ---
 
