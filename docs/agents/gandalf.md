@@ -19,10 +19,11 @@ makes is quoted from a real note, so Tristen can check every word.
 > Role philosophy: [`../ai-architecture.md` §0](../ai-architecture.md) · Staff directory:
 > [`roster.md`](roster.md). Gandalf is a *person with a role*, not a feature.
 
-- **Status:** Live (v0.1)
-- **Deployed:** 2026-11-19
+- **Status:** Live (v0.2)
+- **Deployed:** 2026-11-19 · Discord wired 2026-11-20
 - **Runs on:** Hermes, Proxmox VM `debian` @ 192.168.10.11 (on demand — no schedule)
-- **Reports to:** Tristen, via the terminal today; Discord hub planned
+- **Reports to:** Tristen, via the terminal (CLI tools) and his own Discord channel
+  **#lorekeeper**, where he answers live and in character.
 - **Classification:** Read + propose, strictly gated — **never edits canon; Tristen is final canon**
 
 ---
@@ -94,13 +95,40 @@ gandalf report    # scan + write a dated report into _Proposals/
 gandalf "<ask>"   # reason about a question, in character, grounded in the vault
 ```
 
+## Discord presence — his own identity (the fleet pattern)
+
+Gandalf is **his own Discord bot**, not a persona bolted onto the Hermes/Alpha-5 bot. He
+has his own application, name, avatar, and token, and he owns the **#lorekeeper** channel.
+This is the "each staff member is a real, separate person" architecture — and the template
+every future hire (Bilbo next) follows.
+
+How it works, concretely:
+
+- **A dedicated Hermes profile** `gandalf` at `~/.hermes/profiles/gandalf/` — his own home,
+  memory, skills, and `.env`. His bot token lives only in that profile's `.env`; his
+  `DISCORD_HOME_CHANNEL` is #lorekeeper.
+- **His persona is `SOUL.md`** in that profile — the Lorekeeper charter plus live-agent
+  guardrails (read-only by default, stay in lane, ask before anything privileged), since
+  the live agent has real tools, unlike the read-only CLI scanner.
+- **One gateway serves both profiles** via `gateway.multiplex_profiles: true` with a
+  profile allowlist of `[default, gandalf]`. A `gateway.profile_routes` entry routes the
+  #lorekeeper channel to the `gandalf` profile; everything else (incl. Alpha-5's
+  #network-admin) stays on the default profile. The multiplexer scopes each profile's
+  credentials per-turn, so Gandalf authenticates as *himself*.
+
+The result: message #lorekeeper and Gandalf answers in his own voice, under his own name,
+grounded only in the vault — while Alpha-5 keeps #network-admin, untouched.
+
 ## Known gotchas / future work
 
 - **rclone shared client_id retires in 2026.** rclone warns its built-in Google client_id
   will stop working sometime in 2026; when it does, sync breaks until Tristen creates his own
   client_id (a ~10-minute Google Cloud console task). Logged, not yet urgent.
-- **Discord hub not yet wired.** Today Gandalf reports in the terminal; a conversational or
-  summon-to-Discord layer is the next step.
+- **Discord hub — ✅ wired (2026-11-20).** Gandalf now has his own Discord bot identity and
+  answers live in **#lorekeeper** (see "Discord presence" below). Remaining polish: his
+  bot token should be rotated once (it was pasted in plaintext during setup), and his
+  live persona is the full orchestrator — not the read-only scanner sandbox — so his
+  guardrails live in his profile `SOUL.md`, not in code.
 - **LLM reasoning is cluster-scoped.** The full vault is too large to reason over in one pass
   reliably; Gandalf analyzes tightly-linked clusters (e.g. the political web) per run. Broad
   structural checks are whole-vault via the scanner.
