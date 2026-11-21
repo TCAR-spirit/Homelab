@@ -1,0 +1,6 @@
+# Bilbo voice receiver — Python deps (isolated venv; see README.md)
+# Py-cord provides built-in per-speaker voice receive (WaveSink).
+# NOTE: Py-cord and discord.py cannot coexist in one venv — keep this isolated
+# from the Hermes environment.
+py-cord[voice]==2.8.1
+PyNaCl

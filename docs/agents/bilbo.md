@@ -152,8 +152,18 @@ bilbo listen               # (future) join the Discord voice channel and record 
   `GO-LIVE-RUNBOOK.md`).
 - **Next:** Create Bilbo's Discord bot + #chronicle channel and finish the go-live
   runbook so he speaks live in his own channel (like Alpha-5 and Gandalf).
-- **Then (voice):** Decide the voice-capture approach (research self-host vs.
-  service, local vs. hosted STT, privacy) — a decision doc before any build.
+- **Done (2026-11-21) — voice pipeline proven end-to-end:** Solved "the voice
+  problem" below as a decided architecture and a working, tested pipeline. Local
+  whisper.cpp built + benchmarked on the VM (small.en chosen, ~0.45× realtime — a
+  3-hr session transcribes in ~80 min). Self-hosted Py-cord voice receiver written
+  (per-speaker WAV capture → speaker attribution; announces recording for consent).
+  `transcribe.sh` glues per-speaker WAV → ffmpeg → whisper.cpp → one timestamped,
+  speaker-tagged `transcript.txt`. Tested the whole chain on sample audio and handed
+  the transcript to the in-character Bilbo: he correctly refused to invent a session
+  from test audio ("a scribe who embellishes is no scribe at all") — the Iron Law
+  holds through the full pipeline. Code + decision doc in the repo under
+  `agents/bilbo/voice-capture/`. The one unproven link is the **live Discord voice
+  join** (needs Bilbo's bot token + a real voice session).
 - **Later:** Live Discord voice capture + STT + speaker tagging; Discord
   `#chronicle` (or similar) channel + live persona, matching how Alpha-5 and
   Gandalf speak in their own channels.
