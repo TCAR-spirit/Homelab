@@ -139,11 +139,21 @@ bilbo listen               # (future) join the Discord voice channel and record 
 
 - **Done (2026-11-20):** Foundation — roster seat, this spec, role/lane defined
   against Gandalf. No code.
-- **Next:** Decide the voice-capture approach (research self-host vs. service,
-  local vs. hosted STT, privacy) — a decision doc before any build.
-- **Then:** Ship the **text-path slice** — a recap generator (transcript → draft
-  session log in the vault), reusing the gated vault-write discipline Gandalf
-  already uses (drafts only, never canon).
+- **Done (2026-11-21):** **Bilbo is alive on the text path.** Built his own Hermes
+  profile (`bilbo`, cloned config+skills from Gandalf, with Gandalf's memory and
+  Discord token scrubbed out — role-only memory, own identity). Wrote his `SOUL.md`
+  (book/film-faithful hobbit-chronicler voice + the Iron Law + his hard lane vs.
+  Gandalf) and his own role memory. Verified in character: asked "what happened in
+  Session 2," he correctly found no Session 2 recap, found a *plan* file, and
+  **refused to pass the plan off as a record** ("a scribe who does that is no scribe
+  at all") — the Iron Law holds under temptation. Discord wiring is **staged**:
+  `bilbo` added to the gateway multiplex allowlist; the `profile_routes` entry for
+  **#chronicle** waits on Tristen creating the bot token + channel (see the profile's
+  `GO-LIVE-RUNBOOK.md`).
+- **Next:** Create Bilbo's Discord bot + #chronicle channel and finish the go-live
+  runbook so he speaks live in his own channel (like Alpha-5 and Gandalf).
+- **Then (voice):** Decide the voice-capture approach (research self-host vs.
+  service, local vs. hosted STT, privacy) — a decision doc before any build.
 - **Later:** Live Discord voice capture + STT + speaker tagging; Discord
   `#chronicle` (or similar) channel + live persona, matching how Alpha-5 and
   Gandalf speak in their own channels.

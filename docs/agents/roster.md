@@ -89,7 +89,8 @@ Alpha; they're different people with different jobs.
 ### Bilbo Baggins — Session Scribe & Chronicler *(next hire — in build)*
 
 - **Title:** Session Scribe / Campaign Chronicler
-- **Status:** 🟡 Open seat — foundation laid 2026-11-20, build in progress
+- **Status:** 🟡 In build — profile + personality live and tested on the text path
+  (2026-11-21); Discord #chronicle wiring staged, waiting on bot token/channel
 - **Job (planned):** Attends each *Aethrys* D&D session and writes it down —
   turning what happened at the table into a clean, structured **session recap**
   (who was there, where they went, what they decided, what changed, loose
