@@ -58,18 +58,31 @@ The receiver reads Bilbo's bot token from his Hermes profile
 
 ## Usage
 
+**The receiver runs as an always-on systemd user service** (`bilbo-voice.service`),
+so it survives reboots and auto-restarts on failure. It's already enabled on the VM.
+
 ```bash
-# start the receiver service
-~/bilbo-voice/venv/bin/python bilbo_voice_receiver.py
+# service management (on the VM)
+systemctl --user status  bilbo-voice      # is it running?
+systemctl --user restart bilbo-voice      # restart after a code change
+journalctl --user -u bilbo-voice -f       # live logs
+```
 
-# in Bilbo's text channel during a session:
-#   !bilbo join     (join your voice channel, start recording)
-#   !bilbo stop     (stop; saves per-speaker WAVs to ~/bilbo-voice/sessions/session_<ts>/)
+Recording a session — type ONE word in Bilbo's **#chronicler text channel** while
+you are sitting in the **voice channel** you want recorded:
 
-# after the session, transcribe:
+| You type (in #chronicler) | What happens |
+|---|---|
+| **`!record`** | Bilbo joins your current voice channel, announces recording, captures per-speaker audio |
+| **`!stop`** | Stops; saves per-speaker WAVs to `~/bilbo-voice/sessions/session_<ts>/` |
+| **`!status`** | Reports whether he's recording and for how long |
+
+Commands are forgiving: `!record` / `record` / `!rec` / `start` all begin;
+`!stop` / `stop` / `done` all end. Normal chatter in the channel is ignored.
+
+After the session, transcribe and hand off to the agent:
+```bash
 ./transcribe.sh ~/bilbo-voice/sessions/session_<timestamp>
-
-# then hand the transcript to the in-character Bilbo:
 bilbo -z "Write a session recap draft from this transcript: $(cat .../transcript.txt)"
 ```
 

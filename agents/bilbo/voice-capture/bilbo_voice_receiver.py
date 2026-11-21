@@ -124,21 +124,56 @@ async def on_ready():
     print(f"Output root: {OUTPUT_ROOT}")
 
 
+# Simple, forgiving command words. You type ONE of these in #chronicler while
+# sitting in the voice channel you want recorded. Prefix is optional ("!record"
+# or just "record"), and the old "!bilbo join" style still works.
+START_WORDS = {"record", "join", "listen", "start", "begin", "rec"}
+STOP_WORDS = {"stop", "done", "end", "finish"}
+STATUS_WORDS = {"status", "recording?", "?"}
+
+
+def _parse_command(content: str) -> str | None:
+    """Return 'start' / 'stop' / 'status' / 'help' / None from a message."""
+    text = content.strip().lower()
+    if not text:
+        return None
+    first = text.split()[0] if text.split() else ""
+    # Accept with or without a leading "!"; if no "!" the first word must be a
+    # known command (so normal chatter in the channel is ignored).
+    if text.startswith("!"):
+        text = text[1:].strip()
+    elif first not in (START_WORDS | STOP_WORDS | STATUS_WORDS | {"bilbo"}):
+        return None
+    parts = text.split()
+    if parts and parts[0] == "bilbo":
+        parts = parts[1:]
+    if not parts:
+        return "help"
+    word = parts[0]
+    if word in START_WORDS:
+        return "start"
+    if word in STOP_WORDS:
+        return "stop"
+    if word in STATUS_WORDS:
+        return "status"
+    return "help"
+
+
 @bot.event
 async def on_message(message):
     if message.author.bot:
         return
-    content = message.content.strip()
-    if not content.startswith(COMMAND_PREFIX):
-        return
     if not _is_command_channel(message):
         return
 
-    arg = content[len(COMMAND_PREFIX):].strip().lower()
+    cmd = _parse_command(message.content)
+    if cmd is None:
+        return
+
     guild = message.guild
 
     # --- join + start recording ---
-    if arg in ("join", "listen", "record"):
+    if cmd == "start":
         if guild.id in _active:
             await message.channel.send("I am already recording this session, my friend.")
             return
@@ -163,11 +198,11 @@ async def on_message(message):
         await message.channel.send(
             "📝 *Bilbo settles in by the fire, quill ready.* I am now recording this "
             f"session in **{voice_channel.name}**. (The table knows; I keep an honest "
-            "record.) Say `!bilbo stop` when the night is done."
+            "record.) Say `!stop` when the night is done."
         )
 
     # --- stop recording ---
-    elif arg in ("stop", "done", "end"):
+    elif cmd == "stop":
         state = _active.pop(guild.id, None)
         if not state:
             await message.channel.send("I'm not recording anything just now.")
@@ -180,7 +215,7 @@ async def on_message(message):
         )
 
     # --- status ---
-    elif arg in ("status", "?"):
+    elif cmd == "status":
         state = _active.get(guild.id)
         if state:
             dur = _dt.datetime.now() - state["started_at"]
@@ -189,11 +224,12 @@ async def on_message(message):
                 f"saving to `{state['session_dir'].name}`."
             )
         else:
-            await message.channel.send("Not recording. Say `!bilbo join` to begin.")
+            await message.channel.send("Not recording. Say `!record` to begin.")
 
-    else:
+    else:  # help
         await message.channel.send(
-            "I know `!bilbo join`, `!bilbo stop`, and `!bilbo status`, Tristen."
+            "Type **`!record`** to begin (while you're in a voice channel), "
+            "**`!stop`** when the night is done, or **`!status`** to check, Tristen."
         )
 
 

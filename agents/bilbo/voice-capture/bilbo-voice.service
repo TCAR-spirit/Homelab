@@ -1,0 +1,18 @@
+[Unit]
+Description=Bilbo voice receiver (Discord voice capture for Aethrys D&D sessions)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=PYTHONUNBUFFERED=1
+ExecStart=%h/bilbo-voice/venv/bin/python %h/work/Homelab/agents/bilbo/voice-capture/bilbo_voice_receiver.py
+WorkingDirectory=%h/work/Homelab/agents/bilbo/voice-capture
+Restart=on-failure
+RestartSec=10
+# Keep logs in the journal; view with: journalctl --user -u bilbo-voice -f
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
